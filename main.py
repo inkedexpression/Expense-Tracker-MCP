@@ -2,6 +2,7 @@ from fastmcp import FastMCP
 import os
 import aiosqlite  # Changed: sqlite3 → aiosqlite
 import tempfile
+from datetime import datetime
 # Use temporary directory which should be writable
 TEMP_DIR = tempfile.gettempdir()
 DB_PATH = os.path.join(TEMP_DIR, "expenses.db")
@@ -125,6 +126,12 @@ def categories():
             return json.dumps(default_categories, indent=2)
     except Exception as e:
         return f'{{"error": "Could not load categories: {str(e)}"}}'
+
+
+
+@mcp.tool()
+def get_today_date() -> str:
+    return datetime.now().strftime("%Y-%m-%d")
 
 # Start the server
 if __name__ == "__main__":
